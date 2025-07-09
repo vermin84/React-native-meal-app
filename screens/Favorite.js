@@ -6,6 +6,7 @@ import { FavoriteContext } from "../store/FavoriteContext";
 import { getListByIds } from "../services/services";
 import MealsList from "../components/MealsList";
 import { colors } from "../Global";
+import FallBackScreen from "../components/FallBackScreen";
 
 export default function Favorite(){
     const {favMeals} = useContext(FavoriteContext)
@@ -23,8 +24,8 @@ export default function Favorite(){
     return <SafeAreaView style={styles.wrapper}>
         
         <Header/>
-        <Text style={styles.title}>Favorite Meals</Text>
-        {favList && <MealsList meals={favList}/>}
+                        <Text style={styles.title}>Favorite Meals</Text>
+        {favList.length> 0 ? <MealsList meals={favList}/> : <FallBackScreen>You have no favorite meals yet</FallBackScreen>}
     </SafeAreaView>
 }
 

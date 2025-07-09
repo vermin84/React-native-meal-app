@@ -1,11 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import { getFromStorage, saveToStorage } from "../services/services";
+import { getCategories, getFromStorage, getTopTenMeals, saveToStorage } from "../services/services";
 
 export const FavoriteContext = createContext()
 
 export function FavoriteContextProvider({children}){
-
+    const [isLoading, setIsLoading] = useState(true);
     const [favMeals, setFavMeals] = useState([])
+    const [categories, setCategories] = useState([])
+    const [randomMeals, setRandomMeals] = useState([])
 
 
     useEffect(()=>{
@@ -21,6 +23,26 @@ export function FavoriteContextProvider({children}){
         saveToStorage('favorite', favMeals);
     }, [favMeals]);
     
+     useEffect(() => {
+      async function fetchData() {
+        try {
+          const [cat, rand] = await Promise.all([
+            getCategories(),
+            getTopTenMeals(10)
+          ]);
+          setCategories(cat);
+          setRandomMeals(rand);
+        } catch (error) {
+          console.error("Error fetching data", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    
+      fetchData();
+    }, []);
+
+
     function favoriteToggle(id){
         const isFav = favMeals.includes(id)
 
@@ -35,7 +57,13 @@ export function FavoriteContextProvider({children}){
 
     const value = {
         favMeals: favMeals,
-        favoriteToggle: favoriteToggle
+        favoriteToggle: favoriteToggle,
+        isLoading: isLoading,
+        setIsLoading: setIsLoading,
+        categories: categories,
+        setCategories: setCategories,
+        randomMeals: randomMeals,
+        setRandomMeals: setRandomMeals
     }
     return <FavoriteContext.Provider value={value}>{children}</FavoriteContext.Provider>
 }

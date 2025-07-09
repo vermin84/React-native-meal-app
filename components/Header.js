@@ -6,9 +6,8 @@ import { useNavigation, useNavigationState, useRoute } from "@react-navigation/n
 export function Header(){ 
     const isFavorite = useRoute().name === 'Favorite'
     const navigation = useNavigation()
-    const isRiot = useNavigationState(state =>{
-        return state.index ===0
-    })
+    const isRiot = useNavigationState(state => {const route = state.routes[state.index];
+  return route.name ==="Home";})
     const isSearch = useNavigationState(state => {const route = state.routes[state.index];
   return route.name ==="Search";})
     

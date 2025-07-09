@@ -25,7 +25,7 @@ export default function Catwgories({route, navigation}){
     
     return <SafeAreaView style={styles.wrapper}>
         
-        <Header/>
+                    <Header/>
 
         <Text style={styles.title}>{categoryInfo.strCategory}</Text>
         {meals && <MealsList meals={meals}/>}
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
            // paddingBottom: 40
         },
         title: {
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: 'bold',
             color: colors.textPrimary,
             textAlign: 'center',

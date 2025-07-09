@@ -2,20 +2,20 @@ import {  ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"
 import { colors } from "../Global";
 import { getCategories, getTopTenMeals } from "../services/services";
-import { useEffect, useState } from "react";
-import CategoriesList from "../components/CategoriesList";
+import { useContext, useEffect, useState } from "react";
 
 import { Header } from "../components/Header";
 import MealsList from "../components/MealsList";
+import { FavoriteContext } from "../store/FavoriteContext";
 
 export default function Home({navigation}){
-const [categories, setCategories] = useState([])
-const [randomMeals, setRandomMeals] = useState([])
-const [isLoading, setIsLoading] = useState(true);
+//const [categories, setCategories] = useState([])
+//const [randomMeals, setRandomMeals] = useState([])
+const ctx= useContext(FavoriteContext);
 
 
 
-   useEffect(() => {
+  /* useEffect(() => {
   async function fetchData() {
     try {
       const [cat, rand] = await Promise.all([
@@ -27,16 +27,16 @@ const [isLoading, setIsLoading] = useState(true);
     } catch (error) {
       console.error("Error fetching data", error);
     } finally {
-      setIsLoading(false);
+      ctx.setIsLoading(false);
     }
   }
 
   fetchData();
-}, []);
+}, []);*/
     return <SafeAreaView style={styles.wrapper} >
         
         
-    {!isLoading && randomMeals && <MealsList categories={categories} meals={randomMeals}/>}
+    {!ctx.isLoading && ctx.randomMeals && <MealsList categories={ctx.categories} meals={ctx.randomMeals}/>}
         
     </SafeAreaView >
 }

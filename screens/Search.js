@@ -6,17 +6,20 @@ import { searchByName } from "../services/services";
 import SearchModule from "../components/SearchModule";
 import MealsList from "../components/MealsList";
 import { colors } from "../Global";
+import FallBackScreen from "../components/FallBackScreen";
 
 export default function Search(){
 
-    const [query, setQuery] =useState('arra')
+    const [query, setQuery] =useState('')
     const [results, setReslts] =useState([])
+    const [hasSearched, setHasSearched] = useState(false);
 
    async function onSearch(){
         if(!query.trim()) return
         try {
             const results = await searchByName(query)
-            setReslts(results.meals)
+            setReslts(results.meals || [])
+            setHasSearched(true)
             setQuery('')
 
         }catch (error) {
@@ -26,8 +29,19 @@ export default function Search(){
     return <SafeAreaView style={styles.wrapper}>
         <Header/>
         <Text style={styles.title}>Search</Text>
+    
         <SearchModule onSubmit={onSearch} value={query} onChange={setQuery}/>
-        {results && <MealsList meals={results}/>}
+        <View style={{ flex: 1 }}>
+
+        {results.length > 0 ? (
+  <MealsList meals={results} />
+) : hasSearched ? (
+  <FallBackScreen>No meals found</FallBackScreen>
+) : (
+  <FallBackScreen>Start searching</FallBackScreen>
+)}
+
+        </View>
     </SafeAreaView>
 }
 

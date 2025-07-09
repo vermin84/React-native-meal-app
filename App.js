@@ -10,6 +10,7 @@ import Search from './screens/Search';
 import MealDetails from './screens/MealDetails';
 import { FavoriteContextProvider } from './store/FavoriteContext';
 import { colors } from './Global';
+import SplashScreen from './screens/SplashScreen';
 
 const Stack= createNativeStackNavigator()
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
       <StatusBar style="auto" />
       
       <Stack.Navigator screenOptions={{headerShown: false, backgroundColor: colors.background}}>
+        <Stack.Screen name='SplashScreen' component={SplashScreen}/>
         <Stack.Screen name='Home' component={Home}/>
         <Stack.Screen name='Category' component={Catwgories}/>
         <Stack.Screen name='Favorite' component={Favorite}/>
